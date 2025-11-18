@@ -37,8 +37,8 @@ trustworthy than manual code review.
 
 ## Team Members
 
-- Person A: Frontend/Backend Developer
-- Person B: AI/Research Specialist
+- Hasitha Hiththatiyage: Frontend/Backend Developer
+- Nipuni Kodikara: AI/Research Specialist
 
 ## Documentation
 
