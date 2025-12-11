@@ -4,6 +4,7 @@ require('dotenv').config();
 
 // Import routes
 const authRoutes = require('./routes/auth');
+const reviewRoutes = require('./routes/reviews');
 
 const app = express();
 
@@ -15,6 +16,8 @@ app.use(express.json());
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/reviews', reviewRoutes);
+
 
 // Health check
 app.get('/api/health', (req, res) => {
