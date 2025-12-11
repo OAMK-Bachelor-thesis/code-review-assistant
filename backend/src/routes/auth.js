@@ -7,6 +7,8 @@ router.post('/register', async (req, res) => {
   try {
     const { email, password, username } = req.body;
 
+    console.log('Register request body:', req.body);
+
     // Validate input
     if (!email || !password || !username) {
       return res.status(400).json({ 
@@ -18,10 +20,9 @@ router.post('/register', async (req, res) => {
     const { data: existingUser } = await supabase
       .from('users')
       .select('id')
-      .eq('email', email)
-      .single();
+      .eq('email', email);
 
-    if (existingUser) {
+    if (existingUser && existingUser.length > 0) {
       return res.status(400).json({ 
         error: 'Email already registered' 
       });
@@ -48,8 +49,7 @@ router.post('/register', async (req, res) => {
           created_at: new Date(),
         },
       ])
-      .select()
-      .single();
+      .select();
 
     if (dbError) {
       return res.status(400).json({ error: dbError.message });
@@ -58,9 +58,9 @@ router.post('/register', async (req, res) => {
     return res.status(201).json({
       message: 'User registered successfully',
       user: {
-        id: user.id,
-        email: user.email,
-        username: user.username,
+        id: user[0].id,
+        email: user[0].email,
+        username: user[0].username,
       },
     });
   } catch (error) {
@@ -69,27 +69,12 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// Admin endpoint to verify user (for testing only)
-router.post('/verify', async (req, res) => {
-  try {
-    const { email } = req.body;
-
-    const { data, error } = await supabase.auth.admin.updateUserById(
-      (await supabase.from('users').select('id').eq('email', email).single()).data.id,
-      { email_confirm: true }
-    );
-
-    if (error) return res.status(400).json({ error: error.message });
-    return res.json({ message: 'User verified' });
-  } catch (error) {
-    return res.status(500).json({ error: error.message });
-  }
-});
-
 // POST /api/auth/login - User login
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
+
+    console.log('Login attempt:', email);
 
     // Validate input
     if (!email || !password) {
@@ -104,6 +89,8 @@ router.post('/login', async (req, res) => {
       password,
     });
 
+    console.log('Auth error:', error);
+
     if (error || !data.user) {
       return res.status(401).json({ 
         error: 'Invalid email or password' 
@@ -111,23 +98,27 @@ router.post('/login', async (req, res) => {
     }
 
     // Get user profile
-    const { data: user, error: userError } = await supabase
-    .from('users')
-    .select('*')
-    .eq('id', data.user.id);
+    const { data: userList, error: userError } = await supabase
+      .from('users')
+      .select('*')
+      .eq('id', data.user.id);
 
-    if (!user || user.length === 0) {
+    if (userError) {
+      return res.status(400).json({ error: userError.message });
+    }
+
+    if (!userList || userList.length === 0) {
       return res.status(400).json({ error: 'User profile not found' });
     }
 
-const userProfile = user[0];
+    const user = userList[0];
 
     return res.status(200).json({
       message: 'Login successful',
       user: {
-        id: userProfile.id,
-        email: userProfile.email,
-        username: userProfile.username,
+        id: user.id,
+        email: user.email,
+        username: user.username,
       },
       session: {
         access_token: data.session.access_token,
@@ -159,17 +150,20 @@ router.get('/user', async (req, res) => {
     }
 
     // Get user profile
-    const { data: user, error: userError } = await supabase
+    const { data: userList, error: userError } = await supabase
       .from('users')
       .select('*')
-      .eq('id', data.user.id)
-      .single();
+      .eq('id', data.user.id);
 
     if (userError) {
       return res.status(400).json({ error: userError.message });
     }
 
-    return res.status(200).json(user);
+    if (!userList || userList.length === 0) {
+      return res.status(400).json({ error: 'User profile not found' });
+    }
+
+    return res.status(200).json(userList[0]);
   } catch (error) {
     console.error('Get user error:', error);
     return res.status(500).json({ error: 'Internal server error' });
@@ -191,6 +185,37 @@ router.post('/logout', async (req, res) => {
   } catch (error) {
     console.error('Logout error:', error);
     return res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// POST /api/auth/verify - Admin endpoint to verify user (testing only)
+router.post('/verify', async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    const { data: userList } = await supabase
+      .from('users')
+      .select('id')
+      .eq('email', email);
+
+    if (!userList || userList.length === 0) {
+      return res.status(400).json({ error: 'User not found' });
+    }
+
+    const userId = userList[0].id;
+
+    const { data, error } = await supabase.auth.admin.updateUserById(userId, {
+      email_confirm: true
+    });
+
+    if (error) {
+      return res.status(400).json({ error: error.message });
+    }
+
+    return res.json({ message: 'User verified' });
+  } catch (error) {
+    console.error('Verify error:', error);
+    return res.status(500).json({ error: error.message });
   }
 });
 
