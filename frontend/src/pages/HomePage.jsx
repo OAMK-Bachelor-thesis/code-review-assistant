@@ -32,6 +32,7 @@ export default function HomePage() {
       </nav>
 
       {/* Hero Section */}
+<<<<<<< HEAD
       <div className="flex-1 flex items-center justify-center px-6 py-20">
         <div className="w-full max-w-4xl">
           <div className="text-center mb-40">
@@ -40,6 +41,32 @@ export default function HomePage() {
             </h1>
             <p className="text-xl text-hacker-muted mb-8">
               Get intelligent, automated code reviews powered by Groq AI
+=======
+      <div className="max-w-6xl mx-auto px-6 py-20">
+        <div className="text-center mb-40">
+          <h1 className="text-5xl font-bold text-hacker-accent mb-4 glow">
+            AI-Enhanced Code Review Assistant
+          </h1>
+          <p className="text-xl text-hacker-muted mb-8">
+            Get intelligent, automated code reviews powered by Groq AI
+          </p>
+          {!isAuthenticated && (
+            <Link to="/register" className="btn btn-primary text-lg px-8 py-3">
+              Get Started Now
+            </Link>
+          )}
+        </div>
+
+        {/* Features Grid */}
+        <div className="grid md:grid-cols-3 gap-6 mt-12">
+          {/* Feature 1 */}
+          <div className="card">
+            <h3 className="text-xl font-bold text-hacker-accent mb-3">
+              🤖 AI-Powered Analysis
+            </h3>
+            <p className="text-hacker-muted">
+              Groq LLaMA 3.1 analyzes your code for security, performance, and quality issues.
+>>>>>>> d53479b7dd17238110a189d19976b4e6e3e0e447
             </p>
             {!isAuthenticated && (
               <Link to="/register" className="btn btn-primary text-lg px-8 py-3 inline-block">
