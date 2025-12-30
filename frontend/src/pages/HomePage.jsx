@@ -33,7 +33,7 @@ export default function HomePage() {
 
       {/* Hero Section */}
       <div className="max-w-6xl mx-auto px-6 py-20">
-        <div className="text-center mb-16">
+        <div className="text-center mb-40">
           <h1 className="text-5xl font-bold text-hacker-accent mb-4 glow">
             AI-Enhanced Code Review Assistant
           </h1>
