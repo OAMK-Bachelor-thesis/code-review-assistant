@@ -289,3 +289,7 @@ h3 { font-size: 1.5rem; }
 /* Opacity */
 .opacity-90 { opacity: 0.9; }
 .opacity-50 { opacity: 0.5; }
+
+/* Extra margin classes */
+.mb-40 { margin-bottom: 2rem; }
+.mb-56 { margin-bottom: 14rem; }
