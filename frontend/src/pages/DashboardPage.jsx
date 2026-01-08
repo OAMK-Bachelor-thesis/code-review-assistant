@@ -2,11 +2,13 @@ import { useAuthStore } from '../stores/authStore';
 import Navbar from '../components/Layout/Navbar';
 import { useState } from 'react';
 import CodeEditor from '../components/CodeSubmission/CodeEditor';
+import ResultsDisplay from '../components/CodeSubmission/ResultsDisplay';
 
 
 export default function DashboardPage() {
   const { user } = useAuthStore();
   const [activeTab, setActiveTab] = useState('submit');
+  const [selectedReview, setSelectedReview] = useState(null);
 
   return (
     <div className="min-h-screen bg-hacker-bg text-hacker-text flex flex-col">
@@ -45,12 +47,22 @@ export default function DashboardPage() {
 
         {/* Tab Content */}
         <div className="grid md:grid-cols-2 gap-8">
-          {activeTab === 'submit' && (
+          {activeTab === 'submit' && !selectedReview && (
             <div className="md:col-span-2">
-              <CodeEditor onSubmitSuccess={(review) => {
-                console.log('Review submitted:', review);
-                // Later: Switch to results display
+              <CodeEditor onSubmitSuccess={(reviewData) => {
+                console.log('Setting review:', reviewData);
+                setSelectedReview(reviewData);
+                setActiveTab('submit'); // Stay on same tab
               }} />
+            </div>
+          )}
+
+          {activeTab === 'submit' && selectedReview && (
+            <div className="md:col-span-2">
+              <ResultsDisplay 
+                review={selectedReview}
+                onClose={() => setSelectedReview(null)}
+              />
             </div>
           )}
 

@@ -68,6 +68,7 @@ export default function CodeEditor({ onSubmitSuccess }) {
       setFormData({ title: '', language: 'javascript', code: '' });
 
       // Callback to parent with review data
+      console.log('Review response:', response);
       if (onSubmitSuccess) {
         onSubmitSuccess(response.review);
       }
