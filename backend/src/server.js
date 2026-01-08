@@ -42,3 +42,5 @@ app.listen(PORT, () => {
   console.log(`📝 Environment: ${process.env.NODE_ENV}`);
   console.log(`🔑 Groq Model: ${process.env.GROQ_MODEL}`);
 });
+
+
