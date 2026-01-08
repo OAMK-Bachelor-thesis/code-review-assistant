@@ -47,22 +47,6 @@ export default function HomePage() {
           )}
         </div>
 
-        {/* Features Grid */}
-        <div className="grid md:grid-cols-3 gap-6 mt-12">
-          {/* Feature 1 */}
-          <div className="card">
-            <h3 className="text-xl font-bold text-hacker-accent mb-3">
-              🤖 AI-Powered Analysis
-            </h3>
-            <p className="text-hacker-muted">
-              Groq LLaMA 3.1 analyzes your code for security, performance, and quality issues.
-            </p>
-            {!isAuthenticated && (
-              <Link to="/register" className="btn btn-primary text-lg px-8 py-3 inline-block">
-                Get Started Now
-              </Link>
-            )}
-          </div>
 
           {/* Features Grid */}
           <div className="grid md:grid-cols-3 gap-6">
@@ -96,7 +80,7 @@ export default function HomePage() {
               </p>
             </div>
           </div>
-        </div>
+        
       </div>
 
       {/* Footer */}

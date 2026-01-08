@@ -1,51 +1,84 @@
 import { useAuthStore } from '../stores/authStore';
-import { useNavigate } from 'react-router-dom';
+import Navbar from '../components/Layout/Navbar';
+import { useState } from 'react';
+import CodeEditor from '../components/CodeSubmission/CodeEditor';
+
 
 export default function DashboardPage() {
-  const { user, logout } = useAuthStore();
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    logout();
-    navigate('/');
-  };
+  const { user } = useAuthStore();
+  const [activeTab, setActiveTab] = useState('submit');
 
   return (
-    <div className="min-h-screen bg-hacker-bg text-hacker-text">
-      {/* Navbar */}
-      <nav className="bg-hacker-surface border-b border-hacker-accent border-opacity-30 px-6 py-4">
-        <div className="max-w-6xl mx-auto flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-hacker-accent">
-            &gt; CODE_REVIEW
-          </h1>
-          <div className="flex items-center space-x-4">
-            <span className="text-hacker-muted">Welcome, {user?.username}</span>
-            <button
-              onClick={handleLogout}
-              className="btn btn-danger"
-            >
-              Logout
-            </button>
-          </div>
-        </div>
-      </nav>
+    <div className="min-h-screen bg-hacker-bg text-hacker-text flex flex-col">
+      <Navbar />
 
       {/* Main Content */}
-      <div className="max-w-6xl mx-auto px-6 py-8">
-        <div className="card text-center">
-          <h2 className="text-3xl font-bold text-hacker-accent mb-4">
-            Dashboard
+      <div className="flex-1 max-w-7xl w-full mx-auto px-6 py-8">
+        <div className="mb-8">
+          <h2 className="text-3xl font-bold text-hacker-accent mb-2">
+            Welcome, {user?.email}! 👨‍💻
           </h2>
-          <p className="text-hacker-muted mb-6">
-            Week 5 Step 2 & beyond will add:
-          </p>
-          <ul className="text-left inline-block text-hacker-text space-y-2">
-            <li>✅ Code submission form</li>
-            <li>✅ AI analysis results display</li>
-            <li>✅ Feedback collection</li>
-            <li>✅ Review history</li>
-            <li>✅ Statistics dashboard</li>
-          </ul>
+          <p className="text-hacker-muted">Submit your code for AI-powered review</p>
+        </div>
+
+        {/* Tabs */}
+        <div className="tabs-container">
+          <button
+            onClick={() => setActiveTab('submit')}
+            className={`tab-button ${activeTab === 'submit' ? 'active' : ''}`}
+          >
+            Submit Code
+          </button>
+          <button
+            onClick={() => setActiveTab('history')}
+            className={`tab-button ${activeTab === 'history' ? 'active' : ''}`}
+          >
+            Review History
+          </button>
+          <button
+            onClick={() => setActiveTab('stats')}
+            className={`tab-button ${activeTab === 'stats' ? 'active' : ''}`}
+          >
+            Statistics
+          </button>
+        </div>
+
+        {/* Tab Content */}
+        <div className="grid md:grid-cols-2 gap-8">
+          {activeTab === 'submit' && (
+            <div className="md:col-span-2">
+              <CodeEditor onSubmitSuccess={(review) => {
+                console.log('Review submitted:', review);
+                // Later: Switch to results display
+              }} />
+            </div>
+          )}
+
+          {activeTab === 'history' && (
+            <div className="md:col-span-2">
+              <div className="card">
+                <h3 className="text-xl font-bold text-hacker-accent mb-4">
+                  Review History
+                </h3>
+                <p className="text-hacker-muted mb-4">
+                  Coming in Step 2: Display previous reviews
+                </p>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'stats' && (
+            <div className="md:col-span-2">
+              <div className="card">
+                <h3 className="text-xl font-bold text-hacker-accent mb-4">
+                  Your Statistics
+                </h3>
+                <p className="text-hacker-muted mb-4">
+                  Coming in Step 2: Show research metrics
+                </p>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
