@@ -295,6 +295,56 @@ h3 { font-size: 1.5rem; }
 .mb-40 { margin-bottom: 2rem; }
 .mb-56 { margin-bottom: 14rem; }
 
+/* Table Enhancements */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background-color: rgba(0, 255, 65, 0.05);
+}
+
+thead th {
+  padding: 1rem 1.5rem;
+  text-align: left;
+  font-weight: bold;
+  color: var(--accent);
+  border-bottom: 2px solid var(--accent);
+  white-space: nowrap;
+}
+
+tbody td {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid rgba(0, 255, 65, 0.1);
+  vertical-align: middle;
+}
+
+tbody tr:hover {
+  background-color: rgba(0, 255, 65, 0.05);
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Center align for numbers */
+td:nth-child(3),
+th:nth-child(3),
+td:nth-child(5),
+th:nth-child(5) {
+  text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  thead th,
+  tbody td {
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+  }
+}
+
 /* Tabs - Hacker Theme */
 .tabs-container {
   display: flex;
@@ -303,6 +353,8 @@ h3 { font-size: 1.5rem; }
   border-bottom: 1px solid rgba(0, 255, 65, 0.3);
   padding-bottom: 1rem;
 }
+
+
 
 .tab-button {
   padding: 0.5rem 0;
