@@ -11,7 +11,22 @@ export default function ReviewHistory() {
   const LIMIT = 10;
 
   useEffect(() => {
-    fetchReviews();
+    const loadReviews = async () => {
+      setIsLoading(true);
+      setError('');
+      try {
+        const response = await reviewAPI.getReviews(page, LIMIT);
+        setReviews(response.reviews || []);
+        setPagination(response.pagination || {});
+      } catch (err) {
+        setError(err.error || 'Failed to fetch reviews');
+        setReviews([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    loadReviews();
   }, [page]);
 
   const fetchReviews = async () => {
