@@ -3,6 +3,7 @@ import Navbar from '../components/Layout/Navbar';
 import { useState } from 'react';
 import CodeEditor from '../components/CodeSubmission/CodeEditor';
 import ResultsDisplay from '../components/CodeSubmission/ResultsDisplay';
+import ReviewHistory from '../components/CodeSubmission/ReviewHistory';
 
 
 export default function DashboardPage() {
@@ -68,14 +69,7 @@ export default function DashboardPage() {
 
           {activeTab === 'history' && (
             <div className="md:col-span-2">
-              <div className="card">
-                <h3 className="text-xl font-bold text-hacker-accent mb-4">
-                  Review History
-                </h3>
-                <p className="text-hacker-muted mb-4">
-                  Coming in Step 2: Display previous reviews
-                </p>
-              </div>
+              <ReviewHistory />
             </div>
           )}
 
