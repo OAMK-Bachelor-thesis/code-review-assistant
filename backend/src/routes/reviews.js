@@ -33,7 +33,7 @@ router.post('/', authMiddleware, async (req, res) => {
           code_snippet: code,
           language: language || 'javascript',
           ai_suggestions: analysis,
-          score: analysis?.score || 0,
+          score: analysis?.analysis?.score || analysis?.score || 0,
           created_at: new Date(),
         },
       ])

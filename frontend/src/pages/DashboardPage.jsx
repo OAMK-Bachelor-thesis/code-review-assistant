@@ -4,6 +4,7 @@ import { useState } from 'react';
 import CodeEditor from '../components/CodeSubmission/CodeEditor';
 import ResultsDisplay from '../components/CodeSubmission/ResultsDisplay';
 import ReviewHistory from '../components/CodeSubmission/ReviewHistory';
+import Statistics from '../components/CodeSubmission/Statistics';
 
 
 export default function DashboardPage() {
@@ -75,16 +76,10 @@ export default function DashboardPage() {
 
           {activeTab === 'stats' && (
             <div className="md:col-span-2">
-              <div className="card">
-                <h3 className="text-xl font-bold text-hacker-accent mb-4">
-                  Your Statistics
-                </h3>
-                <p className="text-hacker-muted mb-4">
-                  Coming in Step 2: Show research metrics
-                </p>
-              </div>
+              <Statistics />
             </div>
           )}
+          
         </div>
       </div>
     </div>
