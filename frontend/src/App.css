@@ -40,3 +40,39 @@
 .read-the-docs {
   color: #888;
 }
+
+/* Table Styling */
+table {
+  border-collapse: collapse;
+}
+
+tbody tr:hover {
+  background-color: rgba(0, 255, 65, 0.05);
+}
+
+thead th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: bold;
+  color: var(--accent);
+  border-bottom: 2px solid var(--accent);
+}
+
+tbody td {
+  padding: 1rem;
+  border-bottom: 1px solid rgba(0, 255, 65, 0.1);
+}
+
+/* Scrollable table */
+.overflow-x-auto {
+  overflow-x: auto;
+}
+
+/* Badge styling */
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
