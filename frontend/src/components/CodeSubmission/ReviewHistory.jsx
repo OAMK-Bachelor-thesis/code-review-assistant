@@ -94,54 +94,62 @@ export default function ReviewHistory() {
   return (
     <div className="space-y-4">
       {/* Table */}
-      <div className="card overflow-x-auto">
-        <table className="w-full text-left text-sm">
-          <thead>
-            <tr className="border-b border-hacker-accent border-opacity-30">
-              <th className="px-4 py-3 text-hacker-accent font-bold">Title</th>
-              <th className="px-4 py-3 text-hacker-accent font-bold">Language</th>
-              <th className="px-4 py-3 text-hacker-accent font-bold">Score</th>
-              <th className="px-4 py-3 text-hacker-accent font-bold">Date</th>
-              <th className="px-4 py-3 text-hacker-accent font-bold">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {reviews.map((review) => (
-              <tr key={review.id} className="border-b border-hacker-accent border-opacity-10 hover:bg-hacker-surface hover:bg-opacity-50 transition">
-                <td className="px-4 py-3 text-hacker-text font-medium">{review.title}</td>
-                <td className="px-4 py-3 text-hacker-muted">
-                  <span className="badge" style={{
-                    backgroundColor: 'rgba(0, 255, 65, 0.2)',
-                    color: 'var(--accent)',
-                    border: '1px solid var(--accent)'
-                  }}>
-                    {review.language}
-                  </span>
-                </td>
-                <td className="px-4 py-3">
-                  <span className="font-bold" style={{
-                    color: review.score >= 70 ? 'var(--success)' :
-                           review.score >= 40 ? 'var(--warning)' :
-                           'var(--danger)'
-                  }}>
-                    {review.score}/100
-                  </span>
-                </td>
-                <td className="px-4 py-3 text-hacker-muted text-xs">
-                  {new Date(review.created_at).toLocaleDateString()}
-                </td>
-                <td className="px-4 py-3 space-x-2 flex">
-                  <button
-                    onClick={() => handleDelete(review.id)}
-                    className="btn btn-danger text-xs py-1 px-3"
-                  >
-                    🗑️ Delete
-                  </button>
-                </td>
+      <div className="card">
+        <div className="overflow-x-auto">
+          <table className="w-full text-left text-sm">
+            <thead>
+              <tr className="border-b-2 border-hacker-accent">
+                <th className="px-6 py-4 text-hacker-accent font-bold text-left">Title</th>
+                <th className="px-6 py-4 text-hacker-accent font-bold text-left">Language</th>
+                <th className="px-6 py-4 text-hacker-accent font-bold text-center">Score</th>
+                <th className="px-6 py-4 text-hacker-accent font-bold text-left">Date</th>
+                <th className="px-6 py-4 text-hacker-accent font-bold text-center">Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {reviews.map((review) => (
+                <tr 
+                  key={review.id} 
+                  className="border-b border-hacker-accent border-opacity-20 hover:bg-hacker-surface hover:bg-opacity-50 transition"
+                >
+                  <td className="px-6 py-4 text-hacker-text font-medium">
+                    {review.title}
+                  </td>
+                  <td className="px-6 py-4">
+                    <span className="badge" style={{
+                      backgroundColor: 'rgba(0, 255, 65, 0.2)',
+                      color: 'var(--accent)',
+                      border: '1px solid var(--accent)',
+                      padding: '0.35rem 0.75rem'
+                    }}>
+                      {review.language}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <span className="font-bold inline-block w-16" style={{
+                      color: review.score >= 70 ? 'var(--success)' :
+                             review.score >= 40 ? 'var(--warning)' :
+                             'var(--danger)'
+                    }}>
+                      {review.score}/100
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 text-hacker-muted text-xs">
+                    {new Date(review.created_at).toLocaleDateString()}
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <button
+                      onClick={() => handleDelete(review.id)}
+                      className="btn btn-danger text-xs py-1 px-3 whitespace-nowrap"
+                    >
+                      🗑️ Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {/* Pagination */}
