@@ -10,11 +10,30 @@ const feedbackRoutes = require('./routes/feedback');
 const app = express();
 
 // Middleware
+const allowedOrigins = [
+  "https://code-review-assistant-three.vercel.app",
+  "https://code-review-assistant-production.vercel.app"
+];
+
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || '*',
+  origin: (origin, callback) => {
+    // allow server-to-server or Postman requests
+    if (!origin) return callback(null, true);
+
+    // allow any Vercel preview deployment
+    if (origin.endsWith(".vercel.app")) {
+      return callback(null, true);
+    }
+
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    return callback(new Error("Not allowed by CORS"));
+  },
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
 }));
 
 app.use(express.json());
