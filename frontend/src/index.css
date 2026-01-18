@@ -435,3 +435,172 @@ input[type="range"]::-moz-range-thumb {
   border: none;
   box-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
 }
+
+/* Profile Avatar */
+.avatar-profile {
+  width: 6rem;
+  height: 6rem;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--accent);
+}
+
+.avatar-preview {
+  width: 6rem;
+  height: 6rem;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--accent);
+}
+
+/* Spinning Code Animation */
+@keyframes spin-horizontal {
+  0% {
+    transform: scaleX(1);
+  }
+  50% {
+    transform: scaleX(-1);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+.coding-animation {
+  animation: spin-horizontal 1.5s ease-in-out infinite;
+  display: inline-block;
+  margin-left: 0.5rem;
+}
+
+/* Responsive container */
+.container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Laptop */
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1100px;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1300px;
+  }
+}
+
+/* Wide screens / 4K */
+@media (min-width: 1600px) {
+  .container {
+    max-width: 1500px;
+  }
+}
+
+/* Page base */
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #0b0f14;
+  color: #c9d1d9;
+}
+
+/* Navigation */
+.nav {
+  border-bottom: 1px solid rgba(0, 255, 136, 0.3);
+  background: #0f141a;
+}
+
+.nav-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  color: #00ff88;
+  font-size: 1.6rem;
+  font-weight: bold;
+}
+
+/* Hero */
+.hero {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+.hero-inner h2 {
+  font-size: 2.5rem;
+}
+
+.hero-inner p {
+  max-width: 700px;
+  margin: 1rem auto 2rem;
+  color: #8b949e;
+}
+
+/* Features */
+.features {
+  padding: 4rem 0;
+}
+
+.features-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .features-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Cards */
+.card {
+  background: #0f141a;
+  padding: 1.5rem;
+  border: 1px solid rgba(0, 255, 136, 0.3);
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+
+/* App-wide content wrapper */
+.app-container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+/* Laptop */
+@media (min-width: 1024px) {
+  .app-container {
+    max-width: 1100px;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1280px) {
+  .app-container {
+    max-width: 1300px;
+  }
+}
+
+/* Ultra-wide */
+@media (min-width: 1600px) {
+  .app-container {
+    max-width: 1500px;
+  }
+}
