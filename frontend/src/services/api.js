@@ -41,6 +41,27 @@ export const authAPI = {
   getUser: () => api.get('/auth/user'),
 };
 
+// Profile Services
+export const profileAPI = {
+  getProfile: () =>
+    api.get('/profiles'),
+
+  updateProfile: (full_name, programming_experience, role) =>
+    api.put('/profiles', {
+      full_name,
+      programming_experience,
+      role,
+    }),
+
+  uploadProfileImage: (profile_image_url) =>
+    api.post('/profiles/image', { profile_image_url }),
+    
+
+
+  // ... other methods
+};
+
+
 // Review Services
 export const reviewAPI = {
   submitReview: (code, title, language) =>
@@ -75,4 +96,5 @@ export const feedbackAPI = {
 };
 
 export default api;
+
 

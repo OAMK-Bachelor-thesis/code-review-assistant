@@ -1,16 +1,34 @@
 import { useAuthStore } from '../stores/authStore';
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Layout/Navbar';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { profileAPI } from '../services/api';
 import CodeEditor from '../components/CodeSubmission/CodeEditor';
 import ResultsDisplay from '../components/CodeSubmission/ResultsDisplay';
 import ReviewHistory from '../components/CodeSubmission/ReviewHistory';
 import Statistics from '../components/CodeSubmission/Statistics';
 
-
 export default function DashboardPage() {
+  const navigate = useNavigate();
   const { user } = useAuthStore();
+  const [profile, setProfile] = useState(null);
   const [activeTab, setActiveTab] = useState('submit');
   const [selectedReview, setSelectedReview] = useState(null);
+
+  useEffect(() => {
+    const loadProfile = async () => {
+      try {
+        const response = await profileAPI.getProfile();
+        setProfile(response.profile || {});
+      } catch (err) {
+        console.error('Profile error:', err);
+      }
+    };
+
+    if (user?.id) {
+      loadProfile();
+    }
+  }, [user?.id]);
 
   return (
     <div className="min-h-screen bg-hacker-bg text-hacker-text flex flex-col">
@@ -18,11 +36,25 @@ export default function DashboardPage() {
 
       {/* Main Content */}
       <div className="flex-1 max-w-7xl w-full mx-auto px-6 py-8">
-        <div className="mb-8">
-          <h2 className="text-3xl font-bold text-hacker-accent mb-2">
-            Welcome, {user?.email}! 👨‍💻
-          </h2>
-          <p className="text-hacker-muted">Submit your code for AI-powered review</p>
+        
+        {/* Welcome Section */}
+        <div className="mb-8 flex items-center justify-between">
+          <div className="flex-1">
+            <h2 className="text-3xl font-bold text-hacker-accent mb-2">
+              Welcome, {profile?.full_name || user?.email?.split('@')[0]}!
+              <span className="coding-animation">{'</>'}</span>
+            </h2>
+            <p className="text-hacker-muted">Submit your code for AI-powered review and help us improve AI assistance</p>
+          </div>
+
+          {/* Profile Button */}
+          <button
+            onClick={() => navigate('/profile')}
+            className="btn btn-primary ml-6"
+            title="Go to Profile"
+          >
+            👤 My Profile
+          </button>
         </div>
 
         {/* Tabs */}
@@ -54,7 +86,7 @@ export default function DashboardPage() {
               <CodeEditor onSubmitSuccess={(reviewData) => {
                 console.log('Setting review:', reviewData);
                 setSelectedReview(reviewData);
-                setActiveTab('submit'); // Stay on same tab
+                setActiveTab('submit');
               }} />
             </div>
           )}
