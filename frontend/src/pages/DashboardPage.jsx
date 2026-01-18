@@ -111,6 +111,7 @@ export default function DashboardPage() {
               <Statistics />
             </div>
           )}
+          
         </div>
       </div>
     </div>
