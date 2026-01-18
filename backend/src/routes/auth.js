@@ -3,71 +3,60 @@ const router = express.Router();
 const supabase = require('../utils/supabaseClient');
 
 // POST /api/auth/register - User registration
-router.post('/register', async (req, res) => {
-  try {
-    const { email, password, username } = req.body;
+    router.post('/register', async (req, res) => {  // ← async is here!
+      try {
+        const { email, password, username } = req.body;
 
-    console.log('Register request body:', req.body);
+        console.log('Register request body:', req.body);
 
-    // Validate input
-    if (!email || !password || !username) {
-      return res.status(400).json({ 
-        error: 'Email, password, and username are required' 
-      });
-    }
+        // Validate input
+        if (!email || !password || !username) {
+          return res.status(400).json({ 
+            error: 'Email, password, and username are required' 
+          });
+        }
 
-    // Check if user already exists
-    const { data: existingUser } = await supabase
-      .from('users')
-      .select('id')
-      .eq('email', email);
-
-    if (existingUser && existingUser.length > 0) {
-      return res.status(400).json({ 
-        error: 'Email already registered' 
-      });
-    }
-
-    // Create user in Supabase Auth
-    const { data: authData, error: authError } = await supabase.auth.signUp({
-      email,
-      password,
-    });
-
-    if (authError) {
-      return res.status(400).json({ error: authError.message });
-    }
-
-    // Create user profile in database
-    const { data: user, error: dbError } = await supabase
-      .from('users')
-      .insert([
-        {
-          id: authData.user.id,
+        // Create user in Supabase Auth
+        const { data: authData, error: authError } = await supabase.auth.signUp({
           email,
-          username,
-          created_at: new Date(),
-        },
-      ])
-      .select();
+          password,
+        });
 
-    if (dbError) {
-      return res.status(400).json({ error: dbError.message });
-    }
+        if (authError) {
+          return res.status(400).json({ error: authError.message });
+        }
 
-    return res.status(201).json({
-      message: 'User registered successfully',
-      user: {
-        id: user[0].id,
-        email: user[0].email,
-        username: user[0].username,
-      },
+        // Create user profile
+        const { data: user, error: dbError } = await supabase
+          .from('user_profiles')
+          .insert([
+            {
+              id: authData.user.id,
+              email,
+              full_name: username,
+              created_at: new Date(),
+            },
+          ])
+          .select();
+
+        if (dbError) {
+          return res.status(400).json({ error: dbError.message });
+        }
+
+        return res.status(201).json({
+          message: 'User registered successfully',
+          user: {
+            id: user[0].id,
+            email: user[0].email,
+            full_name: user[0].full_name,
+          },
+        });
+      } catch (error) {
+        console.error('Registration error:', error);
+        return res.status(500).json({ error: 'Internal server error' });
+      }
     });
-  } catch (error) {
-    console.error('Registration error:', error);
-    return res.status(500).json({ error: 'Internal server error' });
-  }
-});
+
 
 // POST /api/auth/login - User login
 router.post('/login', async (req, res) => {
@@ -99,7 +88,7 @@ router.post('/login', async (req, res) => {
 
     // Get user profile
     const { data: userList, error: userError } = await supabase
-      .from('users')
+      .from('user_profiles')
       .select('*')
       .eq('id', data.user.id);
 
@@ -118,7 +107,6 @@ router.post('/login', async (req, res) => {
       user: {
         id: user.id,
         email: user.email,
-        username: user.username,
       },
       session: {
         access_token: data.session.access_token,
@@ -150,16 +138,22 @@ router.get('/user', async (req, res) => {
     }
 
     // Get user profile
+    console.log('Looking for user ID:', data.user.id);
+    
     const { data: userList, error: userError } = await supabase
-      .from('users')
+      .from('user_profiles')
       .select('*')
       .eq('id', data.user.id);
 
+    console.log('User lookup result:', { userList, userError });
+
     if (userError) {
+      console.error('User profile error:', userError);
       return res.status(400).json({ error: userError.message });
     }
 
     if (!userList || userList.length === 0) {
+      console.error('User profile not found for ID:', data.user.id);
       return res.status(400).json({ error: 'User profile not found' });
     }
 
@@ -185,37 +179,6 @@ router.post('/logout', async (req, res) => {
   } catch (error) {
     console.error('Logout error:', error);
     return res.status(500).json({ error: 'Internal server error' });
-  }
-});
-
-// POST /api/auth/verify - Admin endpoint to verify user (testing only)
-router.post('/verify', async (req, res) => {
-  try {
-    const { email } = req.body;
-
-    const { data: userList } = await supabase
-      .from('users')
-      .select('id')
-      .eq('email', email);
-
-    if (!userList || userList.length === 0) {
-      return res.status(400).json({ error: 'User not found' });
-    }
-
-    const userId = userList[0].id;
-
-    const { data, error } = await supabase.auth.admin.updateUserById(userId, {
-      email_confirm: true
-    });
-
-    if (error) {
-      return res.status(400).json({ error: error.message });
-    }
-
-    return res.json({ message: 'User verified' });
-  } catch (error) {
-    console.error('Verify error:', error);
-    return res.status(500).json({ error: error.message });
   }
 });
 

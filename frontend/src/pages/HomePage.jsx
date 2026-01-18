@@ -1,91 +1,76 @@
 import { Link } from 'react-router-dom';
 import { useAuthStore } from '../stores/authStore';
+import Navbar from '../components/Layout/Navbar';
 
 export default function HomePage() {
   const { isAuthenticated } = useAuthStore();
 
   return (
     <div className="min-h-screen bg-hacker-bg text-hacker-text flex flex-col">
-      {/* Navigation */}
-      <nav className="bg-hacker-surface border-b border-hacker-accent border-opacity-30 px-6 py-4">
-        <div className="max-w-6xl mx-auto flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-hacker-accent glow">
-            &gt; CODE_REVIEW
-          </h1>
-          <div className="flex gap-4">
-            {isAuthenticated ? (
-              <Link to="/dashboard" className="btn btn-primary">
-                Dashboard
-              </Link>
-            ) : (
-              <>
-                <Link to="/login" className="btn btn-secondary">
-                  Login
-                </Link>
-                <Link to="/register" className="btn btn-primary">
-                  Register
-                </Link>
-              </>
-            )}
-          </div>
-        </div>
-      </nav>
+      {/* Navbar */}
+      <Navbar />
 
-      {/* Hero Section */}
-      <div className="max-w-6xl mx-auto px-6 py-20">
-        <div className="text-center mb-40">
-          <h1 className="text-5xl font-bold text-hacker-accent mb-4 glow">
+      {/* Main Content */}
+      <main className="flex-1">
+        <div className="app-container text-center">
+
+          {/* Hero Section */}
+          <h1 className="text-3xl text-accent glow mb-4">
             AI-Enhanced Code Review Assistant
           </h1>
-          <p className="text-xl text-hacker-muted mb-8">
+
+          <p className="text-muted mb-8">
             Get intelligent, automated code reviews powered by Groq AI
           </p>
+
           {!isAuthenticated && (
-            <Link to="/register" className="btn btn-primary text-lg px-8 py-3">
+            <Link
+              to="/register"
+              className="btn btn-primary mb-40"
+            >
               Get Started Now
             </Link>
           )}
-        </div>
 
-
-          {/* Features Grid */}
-          <div className="grid md:grid-cols-3 gap-6">
-            {/* Feature 1 */}
+          {/* Features */}
+          <div className="grid grid-3 mt-6">
             <div className="card">
-              <h3 className="text-xl font-bold text-hacker-accent mb-3">
+              <h3 className="text-accent mb-2">
                 🤖 AI-Powered Analysis
               </h3>
-              <p className="text-hacker-muted">
-                Groq LLaMA 3.1 analyzes your code for security, performance, and quality issues.
+              <p className="text-muted">
+                Advanced AI analyzes your code for security, performance,
+                and best practices.
               </p>
             </div>
 
-            {/* Feature 2 */}
             <div className="card">
-              <h3 className="text-xl font-bold text-hacker-accent mb-3">
+              <h3 className="text-accent mb-2">
                 ⚡ Instant Feedback
               </h3>
-              <p className="text-hacker-muted">
-                Get comprehensive reviews in seconds with detailed suggestions for improvement.
+              <p className="text-muted">
+                Receive detailed reviews in seconds with clear,
+                actionable improvement suggestions.
               </p>
             </div>
 
-            {/* Feature 3 */}
             <div className="card">
-              <h3 className="text-xl font-bold text-hacker-accent mb-3">
+              <h3 className="text-accent mb-2">
                 📊 Research Metrics
               </h3>
-              <p className="text-hacker-muted">
-                Participate in our research to improve AI code review systems.
+              <p className="text-muted">
+                Contribute to improving next-generation AI code
+                review systems through real usage data.
               </p>
             </div>
           </div>
-        
-      </div>
+
+        </div>
+      </main>
 
       {/* Footer */}
-      <footer className="bg-hacker-surface border-t border-hacker-accent border-opacity-30 px-6 py-4 text-center text-hacker-muted text-sm">
-        <p>&copy; 2025 Code Review Assistant. All rights reserved.</p>
+      <footer className="border-t py-4 text-center text-muted">
+        © 2025 Code Review Assistant. All rights reserved.
       </footer>
     </div>
   );

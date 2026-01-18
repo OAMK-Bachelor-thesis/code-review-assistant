@@ -20,6 +20,10 @@ app.use('/api/auth', authRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/reviews', feedbackRoutes);
 
+const profileRoutes = require('./routes/profiles');
+app.use('/api/profiles', profileRoutes);
+
+
 // Statistics endpoint
 const authMiddleware = require('./middleware/authMiddleware');
 
