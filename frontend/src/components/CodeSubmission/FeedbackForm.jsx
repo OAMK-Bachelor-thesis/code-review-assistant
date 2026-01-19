@@ -151,7 +151,7 @@ export default function FeedbackForm({ reviewId, onSuccess }) {
         {/* Time Spent */}
         <div>
           <label className="block text-hacker-text mb-2 font-medium">
-            Time spent reviewing (seconds)
+            Time spent for manual reviewing (seconds)
           </label>
           <input
             type="number"
