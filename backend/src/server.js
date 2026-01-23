@@ -12,7 +12,9 @@ const app = express();
 // Middleware
 const allowedOrigins = [
   "https://code-review-assistant-three.vercel.app",
-  "https://code-review-assistant-production.vercel.app"
+  "https://code-review-assistant-production.vercel.app",
+  "http://localhost:5173", 
+  "http://localhost:3000"
 ];
 
 app.use(cors({
