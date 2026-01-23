@@ -3,7 +3,7 @@ import { useAuthStore } from '../../stores/authStore';
 
 export default function Navbar() {
   const navigate = useNavigate();
-  const { user, logout } = useAuthStore();
+  const { user, isAuthenticated, logout } = useAuthStore();
 
   const handleLogout = () => {
     logout();
@@ -15,30 +15,51 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         <h1 
           className="text-2xl font-bold text-hacker-accent glow cursor-pointer" 
-          onClick={() => navigate('/dashboard')}
+          onClick={() => navigate('/')}
         >
           &gt; CODE_REVIEW
         </h1>
 
         <div className="flex items-center gap-4">
-          <Link 
-            to="/profile"
-            className="w-10 h-10 rounded-full bg-hacker-accent flex items-center justify-center border-2 border-hacker-accent text-black font-bold text-sm"
-          >
-            {user?.email?.charAt(0).toUpperCase()}
-          </Link>
+          {isAuthenticated ? (
+            // Logged in user view
+            <>
+              <Link 
+                to="/profile"
+                className="w-10 h-10 rounded-full bg-hacker-accent flex items-center justify-center border-2 border-hacker-accent text-black font-bold text-sm"
+              >
+                {user?.email?.charAt(0).toUpperCase()}
+              </Link>
 
-          <div className="flex flex-col items-end">
-            <span className="text-hacker-text font-medium text-sm">{user?.email}</span>
-            <span className="text-hacker-muted text-xs">Developer</span>
-          </div>
+              <div className="flex flex-col items-end">
+                <span className="text-hacker-text font-medium text-sm">{user?.email}</span>
+                <span className="text-hacker-muted text-xs">Developer</span>
+              </div>
 
-          <button
-            onClick={handleLogout}
-            className="btn btn-danger text-sm py-2 px-3"
-          >
-            Logout
-          </button>
+              <button
+                onClick={handleLogout}
+                className="btn btn-danger text-sm py-2 px-3"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            // Not logged in view
+            <>
+              <Link
+                to="/login"
+                className="btn btn-secondary text-sm py-2 px-4"
+              >
+                Login
+              </Link>
+              <Link
+                to="/register"
+                className="btn btn-primary text-sm py-2 px-4"
+              >
+                Sign Up
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </nav>
