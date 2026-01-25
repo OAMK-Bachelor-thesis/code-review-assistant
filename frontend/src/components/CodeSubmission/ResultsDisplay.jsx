@@ -1,9 +1,33 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import FeedbackForm from './FeedbackForm';
+import { feedbackAPI } from '../../services/api';
 
 export default function ResultsDisplay({ review, onClose }) {
   const [showFeedback, setShowFeedback] = useState(false);
   const [showCode, setShowCode] = useState(false);
+  const [existingFeedback, setExistingFeedback] = useState(null);
+  const [isLoadingFeedback, setIsLoadingFeedback] = useState(true);
+
+  // Load existing feedback when component mounts
+    useEffect(() => {
+    const loadFeedback = async () => {
+      try {
+        const response = await feedbackAPI.getFeedback(review.id);
+        console.log('Loaded feedback response:', response);
+        console.log('Feedback object:', response.feedback);  // Add this line
+        const feedback = response.feedback || response;
+        console.log('Final feedback to display:', feedback);  // Add this line
+        setExistingFeedback(feedback);
+      } catch (err) {
+        console.log('No feedback found:', err);
+        setExistingFeedback(null);
+      } finally {
+        setIsLoadingFeedback(false);
+      }
+    } ;
+    
+    loadFeedback();
+  }, [review.id]);
 
   console.log('ResultsDisplay review:', review);
   if (!review) {
@@ -223,23 +247,67 @@ export default function ResultsDisplay({ review, onClose }) {
       )}
 
       {/* Feedback Section */}
-      {!showFeedback && (
-        <button
-          onClick={() => setShowFeedback(true)}
-          className="btn btn-primary w-full"
-        >
-          &gt;_ Submit Your Feedback
-        </button>
-      )}
+      {isLoadingFeedback ? (
+        <div className="card text-center">
+          <p className="text-hacker-muted">[...] Loading feedback...</p>
+        </div>
+      ) : existingFeedback ? (
+        // Show existing feedback
+        <div className="card">
+          <h4 className="text-lg font-bold text-hacker-success mb-4">
+            [+] Your Feedback
+          </h4>
+          <div className="space-y-3">
+            <div className="flex justify-between items-center" style={{ maxWidth: '300px' }}>
+              <span className="text-hacker-text">Accuracy:</span>
+              <span className="text-hacker-accent font-bold">{existingFeedback.accuracy}/10</span>
+            </div>
+            <div className="flex justify-between items-center" style={{ maxWidth: '300px' }}>
+              <span className="text-hacker-text">Helpfulness:</span>
+              <span className="text-hacker-accent font-bold">{existingFeedback.helpfulness}/10</span>
+            </div>
+            <div className="flex justify-between items-center" style={{ maxWidth: '300px' }}>
+              <span className="text-hacker-text">Trust:</span>
+              <span className="text-hacker-accent font-bold">{existingFeedback.trust}/10</span>
+            </div>
+            <div className="flex justify-between items-center" style={{ maxWidth: '300px' }}>
+              <span className="text-hacker-text">Time Spent:</span>
+              <span className="text-hacker-accent font-bold">{existingFeedback.time_spent}s</span>
+            </div>
+            {existingFeedback.comments && (
+              <div className="mt-4 p-3 bg-hacker-bg rounded border border-hacker-accent border-opacity-20">
+                <p className="text-hacker-muted text-sm font-bold mb-1">Comments:</p>
+                <p className="text-hacker-text">{existingFeedback.comments}</p>
+              </div>
+            )}
+          </div>
+        </div>
+      ) : (
+        // Show feedback form
+        <>
+          {!showFeedback && (
+            <button
+              onClick={() => setShowFeedback(true)}
+              className="btn btn-primary w-full"
+            >
+              &gt;_ Submit Your Feedback
+            </button>
+          )}
 
-      {showFeedback && (
-        <FeedbackForm
-          reviewId={review.id}
-          onSuccess={() => {
-            setShowFeedback(false);
-            alert('[+] Thank you for your feedback!');
-          }}
-        />
+          {showFeedback && (
+            <FeedbackForm
+              reviewId={review.id}
+              onSuccess={() => {
+                setShowFeedback(false);
+                // Reload feedback to show the submitted data
+                feedbackAPI.getFeedback(review.id)
+                  .then(feedback => setExistingFeedback(feedback))
+                  .catch(() => {});
+                alert('[+] Thank you for your feedback!');
+              }}
+            />
+          )}
+        </>
       )}
     </div>
   );

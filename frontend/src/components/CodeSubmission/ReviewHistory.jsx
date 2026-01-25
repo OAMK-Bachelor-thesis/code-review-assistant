@@ -47,12 +47,21 @@ export default function ReviewHistory() {
   };
 
   const handleViewReview = async (reviewId) => {
-    try {
-      const review = await reviewAPI.getReview(reviewId);
-      setSelectedReview(review);
-    } catch (err) {
-      alert('[X] Failed to load review details: ' + err.error);
-    }
+  try {
+    const review = await reviewAPI.getReview(reviewId);
+    console.log('Fetched review data:', review);
+    
+    // Transform the data to match what ResultsDisplay expects
+    const transformedReview = {
+      ...review,
+      analysis: review.ai_suggestions  // Map ai_suggestions to analysis
+    };
+    
+    console.log('Transformed review:', transformedReview);
+    setSelectedReview(transformedReview);
+  } catch (err) {
+    alert('[X] Failed to load review details: ' + err.error);
+  }
   };
 
   const handleDelete = async (reviewId) => {
