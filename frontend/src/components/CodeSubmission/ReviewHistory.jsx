@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { reviewAPI } from '../../services/api';
+import ResultsDisplay from './ResultsDisplay';
 
 export default function ReviewHistory() {
   const [reviews, setReviews] = useState([]);
@@ -7,6 +8,7 @@ export default function ReviewHistory() {
   const [error, setError] = useState('');
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState({});
+  const [selectedReview, setSelectedReview] = useState(null);
 
   const LIMIT = 10;
 
@@ -43,24 +45,42 @@ export default function ReviewHistory() {
       setIsLoading(false);
     }
   };
-  
+
+  const handleViewReview = async (reviewId) => {
+    try {
+      const review = await reviewAPI.getReview(reviewId);
+      setSelectedReview(review);
+    } catch (err) {
+      alert('[X] Failed to load review details: ' + err.error);
+    }
+  };
 
   const handleDelete = async (reviewId) => {
     if (window.confirm('Are you sure you want to delete this review?')) {
       try {
         await reviewAPI.deleteReview(reviewId);
         setReviews(reviews.filter(r => r.id !== reviewId));
-        alert('✅ Review deleted successfully');
+        alert('[+] Review deleted successfully');
       } catch (err) {
-        alert('❌ Failed to delete review: ' + err.error);
+        alert('[X] Failed to delete review: ' + err.error);
       }
     }
   };
 
+  // If a review is selected, show ResultsDisplay
+  if (selectedReview) {
+    return (
+      <ResultsDisplay 
+        review={selectedReview} 
+        onClose={() => setSelectedReview(null)} 
+      />
+    );
+  }
+
   if (isLoading && reviews.length === 0) {
     return (
       <div className="card text-center">
-        <p className="text-hacker-accent">⏳ Loading reviews...</p>
+        <p className="text-hacker-accent">[...] Loading reviews...</p>
       </div>
     );
   }
@@ -75,7 +95,7 @@ export default function ReviewHistory() {
           onClick={fetchReviews}
           className="btn btn-primary mt-4"
         >
-          Retry
+          [&gt;] Retry
         </button>
       </div>
     );
@@ -85,7 +105,7 @@ export default function ReviewHistory() {
     return (
       <div className="card text-center">
         <p className="text-hacker-muted text-lg">
-          📭 No reviews yet. Submit your first code for analysis!
+          [#] No reviews yet. Submit your first code for analysis!
         </p>
       </div>
     );
@@ -138,12 +158,20 @@ export default function ReviewHistory() {
                     {new Date(review.created_at).toLocaleDateString()}
                   </td>
                   <td className="px-6 py-4 text-center">
-                    <button
-                      onClick={() => handleDelete(review.id)}
-                      className="btn btn-danger text-xs py-1 px-3 whitespace-nowrap"
-                    >
-                      🗑️ Delete
-                    </button>
+                    <div className="flex gap-2 justify-center">
+                      <button
+                        onClick={() => handleViewReview(review.id)}
+                        className="btn btn-secondary text-xs py-1 px-3 whitespace-nowrap"
+                      >
+                        &lt;/&gt; View
+                      </button>
+                      <button
+                        onClick={() => handleDelete(review.id)}
+                        className="btn btn-danger text-xs py-1 px-3 whitespace-nowrap"
+                      >
+                        [X] Delete
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -165,14 +193,14 @@ export default function ReviewHistory() {
               disabled={page === 1}
               className="btn btn-secondary disabled:opacity-50"
             >
-              ← Previous
+              &lt; Previous
             </button>
             <button
               onClick={() => setPage(Math.min(pagination.pages, page + 1))}
               disabled={page === pagination.pages}
               className="btn btn-secondary disabled:opacity-50"
             >
-              Next →
+              Next &gt;
             </button>
           </div>
         </div>

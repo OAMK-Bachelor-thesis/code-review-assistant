@@ -3,6 +3,7 @@ import FeedbackForm from './FeedbackForm';
 
 export default function ResultsDisplay({ review, onClose }) {
   const [showFeedback, setShowFeedback] = useState(false);
+  const [showCode, setShowCode] = useState(false);
 
   console.log('ResultsDisplay review:', review);
   if (!review) {
@@ -56,9 +57,75 @@ export default function ResultsDisplay({ review, onClose }) {
             onClick={onClose}
             className="btn btn-secondary"
           >
-            Back
+            [&lt;] Back
           </button>
         </div>
+      </div>
+
+      {/* Code Preview Section */}
+      <div className="card">
+        <button
+          onClick={() => setShowCode(!showCode)}
+          style={{
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            textAlign: 'left',
+            background: 'transparent',
+            border: 'none',
+            padding: 0,
+            cursor: 'pointer',
+            transition: 'opacity 0.2s'
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.opacity = '0.8'}
+          onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+        >
+          <h4 style={{ 
+            fontSize: '1.125rem', 
+            fontWeight: 'bold',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            color: 'var(--success)',
+            margin: 0
+          }}>
+            <span style={{ fontFamily: 'monospace', fontSize: '1.25rem' }}>&lt;/&gt;</span>
+            <span>Submitted Code</span>
+          </h4>
+          <span style={{ color: 'var(--success)', fontSize: '1.25rem' }}>
+            {showCode ? '[v]' : '[>]'}
+          </span>
+        </button>
+        
+        {showCode && (
+          <div style={{ marginTop: '1rem' }}>
+            <div style={{
+              backgroundColor: '#000000',
+              padding: '1rem',
+              borderRadius: '0.5rem',
+              border: '1px solid rgba(0, 255, 65, 0.3)',
+              overflowX: 'auto'
+            }}>
+              <pre style={{
+                color: 'var(--success)',
+                fontFamily: 'monospace',
+                fontSize: '0.875rem',
+                whiteSpace: 'pre-wrap',
+                margin: 0
+              }}>
+                <code>{review.code_snippet}</code>
+              </pre>
+            </div>
+            <p style={{ 
+              color: 'var(--text-secondary)', 
+              fontSize: '0.875rem', 
+              marginTop: '0.5rem' 
+            }}>
+              {review.code_snippet?.length || 0} characters
+            </p>
+          </div>
+        )}
       </div>
 
       {/* Score Overview */}
@@ -87,7 +154,7 @@ export default function ResultsDisplay({ review, onClose }) {
       {/* Summary */}
       {analysis.summary && (
         <div className="card">
-          <h4 className="text-lg font-bold text-hacker-accent mb-3">📋 Summary</h4>
+          <h4 className="text-lg font-bold text-hacker-accent mb-3">[#] Summary</h4>
           <p className="text-hacker-text leading-relaxed">
             {analysis.summary}
           </p>
@@ -98,7 +165,7 @@ export default function ResultsDisplay({ review, onClose }) {
       {issues.length > 0 && (
         <div className="card">
           <h4 className="text-lg font-bold text-hacker-accent mb-4">
-            ⚠️ Issues Found ({issues.length})
+            [!] Issues Found ({issues.length})
           </h4>
           <div className="space-y-4">
             {issues.map((issue, idx) => (
@@ -142,12 +209,12 @@ export default function ResultsDisplay({ review, onClose }) {
       {positives.length > 0 && (
         <div className="card">
           <h4 className="text-lg font-bold text-hacker-success mb-4">
-            ✅ Strengths ({positives.length})
+            [+] Strengths ({positives.length})
           </h4>
           <ul className="space-y-2">
             {positives.map((positive, idx) => (
               <li key={idx} className="flex gap-3 text-hacker-text">
-                <span className="text-hacker-success">✓</span>
+                <span className="text-hacker-success">[*]</span>
                 <span>{positive}</span>
               </li>
             ))}
@@ -161,7 +228,7 @@ export default function ResultsDisplay({ review, onClose }) {
           onClick={() => setShowFeedback(true)}
           className="btn btn-primary w-full"
         >
-          📝 Submit Your Feedback
+          &gt;_ Submit Your Feedback
         </button>
       )}
 
@@ -170,7 +237,7 @@ export default function ResultsDisplay({ review, onClose }) {
           reviewId={review.id}
           onSuccess={() => {
             setShowFeedback(false);
-            alert('✅ Thank you for your feedback!');
+            alert('[+] Thank you for your feedback!');
           }}
         />
       )}

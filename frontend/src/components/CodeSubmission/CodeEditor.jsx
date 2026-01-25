@@ -85,7 +85,7 @@ export default function CodeEditor({ onSubmitSuccess }) {
   return (
     <div className="card">
       <h3 className="text-xl font-bold text-hacker-accent mb-6">
-        📝 Submit Code for Review
+         Submit Code for Review
       </h3>
 
       {/* Error Alert */}
@@ -168,14 +168,14 @@ export default function CodeEditor({ onSubmitSuccess }) {
           disabled={isLoading}
           className="btn btn-primary w-full mt-6 disabled:opacity-50"
         >
-          {isLoading ? '🔄 Analyzing...' : '🚀 Submit for Review'}
+          {isLoading ? '🔄 Analyzing...' : ' >_ Submit for Review'}
         </button>
       </form>
 
       {/* Info Box */}
       <div className="mt-6 p-4 bg-hacker-bg border border-hacker-accent border-opacity-30 rounded">
         <p className="text-hacker-muted text-sm">
-          💡 <strong>Tip:</strong> Our AI will analyze your code for security vulnerabilities, 
+           <strong>Tip:</strong> Our AI will analyze your code for security vulnerabilities, 
           performance issues, and code quality. You'll receive detailed feedback in seconds!
         </p>
       </div>

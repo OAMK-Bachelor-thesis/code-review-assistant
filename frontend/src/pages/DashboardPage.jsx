@@ -53,7 +53,7 @@ export default function DashboardPage() {
             className="btn btn-primary ml-6"
             title="Go to Profile"
           >
-            👤 My Profile
+            [$] My Profile
           </button>
         </div>
 

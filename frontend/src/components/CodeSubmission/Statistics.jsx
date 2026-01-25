@@ -61,7 +61,7 @@ export default function Statistics() {
     return (
       <div className="card text-center">
         <p className="text-hacker-muted text-lg">
-          📊 No feedback data yet. Submit reviews and provide feedback to see statistics!
+           No feedback data yet. Submit reviews and provide feedback to see statistics!
         </p>
       </div>
     );
@@ -72,7 +72,7 @@ export default function Statistics() {
       {/* Header */}
       <div className="card">
         <h3 className="text-2xl font-bold text-hacker-accent mb-2">
-          📊 Research Statistics
+           $ ./  Research Statistics
         </h3>
         <p className="text-hacker-muted">
           Based on {stats.total_feedback} feedback submission{stats.total_feedback !== 1 ? 's' : ''}
@@ -83,7 +83,7 @@ export default function Statistics() {
       <div className="grid md:grid-cols-2 gap-6">
         {/* Accuracy */}
         <div className={`card border-2 border-l-4 ${getScoreBg(stats.average_accuracy)}`}>
-          <p className="text-hacker-muted text-sm mb-2">🎯 Average Accuracy</p>
+          <p className="text-hacker-muted text-sm mb-2"> [%] Average Accuracy</p>
           <p className={`text-5xl font-bold ${getScoreColor(stats.average_accuracy)}`}>
             {stats.average_accuracy.toFixed(1)}
             <span className="text-lg">/10</span>
@@ -95,7 +95,7 @@ export default function Statistics() {
 
         {/* Helpfulness */}
         <div className={`card border-2 border-l-4 ${getScoreBg(stats.average_helpfulness)}`}>
-          <p className="text-hacker-muted text-sm mb-2">💡 Average Helpfulness</p>
+          <p className="text-hacker-muted text-sm mb-2"> [+] Average Helpfulness</p>
           <p className={`text-5xl font-bold ${getScoreColor(stats.average_helpfulness)}`}>
             {stats.average_helpfulness.toFixed(1)}
             <span className="text-lg">/10</span>
@@ -107,7 +107,7 @@ export default function Statistics() {
 
         {/* Trust */}
         <div className={`card border-2 border-l-4 ${getScoreBg(stats.average_trust)}`}>
-          <p className="text-hacker-muted text-sm mb-2">🤝 Average Trust</p>
+          <p className="text-hacker-muted text-sm mb-2"> [#] Average Trust</p>
           <p className={`text-5xl font-bold ${getScoreColor(stats.average_trust)}`}>
             {stats.average_trust.toFixed(1)}
             <span className="text-lg">/10</span>
@@ -119,7 +119,7 @@ export default function Statistics() {
 
         {/* Time */}
         <div className="card border-2 border-l-4 bg-hacker-accent bg-opacity-10 border-hacker-accent">
-          <p className="text-hacker-muted text-sm mb-2">⏱️ Average Review Time</p>
+          <p className="text-hacker-muted text-sm mb-2"> [~] Average Review Time</p>
           <p className="text-5xl font-bold text-hacker-accent">
             {Math.round(stats.average_time_spent)}
             <span className="text-lg">s</span>
@@ -132,7 +132,7 @@ export default function Statistics() {
 
       {/* Summary */}
       <div className="card">
-        <h4 className="text-lg font-bold text-hacker-accent mb-4">📈 Summary</h4>
+        <h4 className="text-lg font-bold text-hacker-accent mb-4"> [#] Summary</h4>
         <div className="space-y-3 text-hacker-muted">
           <p>
             ✓ Based on <span className="text-hacker-accent font-bold">{stats.total_feedback}</span> feedback submissions

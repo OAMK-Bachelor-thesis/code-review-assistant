@@ -165,7 +165,7 @@ export default function ProfilePage() {
         {/* Header with Back Button */}
         <div className="mb-8 flex justify-between items-center">
           <h1 className="text-4xl font-bold text-hacker-accent glow">
-            👤 My Profile
+            ~$ My Profile
           </h1>
           <div className="flex gap-3">
             <button
@@ -179,7 +179,7 @@ export default function ProfilePage() {
               onClick={() => setIsEditing(!isEditing)}
               className="btn btn-primary"
             >
-              {isEditing ? '❌ Cancel' : '✏️ Edit'}
+              {isEditing ? 'X Cancel' : ' Edit'}
             </button>
           </div>
         </div>
@@ -194,7 +194,7 @@ export default function ProfilePage() {
           {/* Left Column: Profile Picture */}
           <div className="card">
             <h3 className="text-lg font-bold text-hacker-accent mb-6">
-              📸 Profile Picture
+               Profile Picture
             </h3>
 
             {/* Avatar Display */}
@@ -250,7 +250,7 @@ export default function ProfilePage() {
                   disabled={isUploadingImage || !imagePreview}
                   className="btn btn-primary w-full disabled:opacity-50 text-sm"
                 >
-                  {isUploadingImage ? '⏳ Uploading...' : '🚀 Upload Image'}
+                  {isUploadingImage ? '⏳ Uploading...' : ' Upload Image'}
                 </button>
               </div>
             )}
@@ -259,7 +259,7 @@ export default function ProfilePage() {
           {/* Middle Column: Profile Info */}
           <div className="card md:col-span-2">
             <h3 className="text-lg font-bold text-hacker-accent mb-6">
-              📊 Profile Information
+               Profile Information
             </h3>
 
             {isEditing ? (
@@ -319,7 +319,7 @@ export default function ProfilePage() {
                   disabled={isSaving}
                   className="btn btn-primary w-full disabled:opacity-50"
                 >
-                  {isSaving ? '⏳ Saving...' : '💾 Save Changes'}
+                  {isSaving ? '⏳ Saving...' : ' Save Changes'}
                 </button>
               </div>
             ) : (
@@ -363,7 +363,7 @@ export default function ProfilePage() {
         {/* Research Status */}
         <div className="mt-8 card">
           <h3 className="text-lg font-bold text-hacker-accent mb-4">
-            ✅ Research Status
+             Research Status
           </h3>
           <div className="flex items-center gap-3">
             <span className={`text-2xl ${profile?.survey_completed ? 'text-hacker-success' : 'text-hacker-muted'}`}>
@@ -379,7 +379,7 @@ export default function ProfilePage() {
             </div>
           </div>
           <p className="text-hacker-muted text-sm mt-4">
-            💡 Thank you for participating! Your feedback helps us improve AI code review.
+             Thank you for participating! Your feedback helps us improve AI code review.
           </p>
         </div>
       </div>

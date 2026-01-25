@@ -79,7 +79,7 @@ export default function SurveyForm({ onSuccess }) {
   return (
     <div className="card">
       <h3 className="text-lg font-bold text-hacker-accent mb-4">
-        📋 Background Information
+         Background Information
       </h3>
 
       <p className="text-hacker-muted mb-6">

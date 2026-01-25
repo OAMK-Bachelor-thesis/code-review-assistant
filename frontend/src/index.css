@@ -3,7 +3,7 @@
   --bg-primary: #0a0e27;
   --bg-secondary: #1a1f3a;
   --accent: #00ff41;
-  --text-primary: #e0e0e0;
+  --text-primary: #00ff41;
   --text-secondary: #999999;
   --danger: #ff3333;
   --success: #00ff41;
@@ -87,13 +87,14 @@ h3 { font-size: 1.5rem; }
 }
 
 .btn-danger {
-  background-color: var(--danger);
-  color: white;
+  background-color: transparent;  /* Changed from var(--danger) */
+  color: var(--danger);            /* Changed from white */
   border: 2px solid var(--danger);
 }
 
 .btn-danger:hover {
-  opacity: 0.9;
+  background-color: var(--danger);  /* Fill on hover */
+  color: white;                     /* White text on hover */
 }
 
 .btn:disabled {

@@ -17,19 +17,14 @@ export default function Navbar() {
           className="text-2xl font-bold text-hacker-accent glow cursor-pointer" 
           onClick={() => navigate('/')}
         >
-          &gt; CODE_REVIEW
+          &lt;/&gt; CODE_REVIEW
         </h1>
 
         <div className="flex items-center gap-4">
           {isAuthenticated ? (
             // Logged in user view
             <>
-              <Link 
-                to="/profile"
-                className="w-10 h-10 rounded-full bg-hacker-accent flex items-center justify-center border-2 border-hacker-accent text-black font-bold text-sm"
-              >
-                {user?.email?.charAt(0).toUpperCase()}
-              </Link>
+              
 
               <div className="flex flex-col items-end">
                 <span className="text-hacker-text font-medium text-sm">{user?.email}</span>

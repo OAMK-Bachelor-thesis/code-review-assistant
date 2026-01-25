@@ -66,7 +66,7 @@ export default function FeedbackForm({ reviewId, onSuccess }) {
   return (
     <div className="card">
       <h4 className="text-xl font-bold text-hacker-accent mb-6">
-        📝 Share Your Feedback
+         Share Your Feedback
       </h4>
 
       <p className="text-hacker-muted mb-6">
